@@ -16,6 +16,10 @@ from async_pac_gnn_py.lpac_abstract import LPACAbstract
 class LPAC(LPACAbstract):
     def __init__(self):
         super().__init__('lpac_coveragecontrol', is_solo=False)
+       
+        while rclpy.ok() and not self._base_initialized:
+            self.InitializeBase()
+            rclpy.spin_once(self, timeout_sec=0.5)   # lets status/service callbacks run
 
         self._create_cmd_vel_publishers(is_solo=False)
 
